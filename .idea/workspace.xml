@@ -21,20 +21,10 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../code/js/algorithm-exercises-js" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
-  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -47,13 +37,18 @@
       <updated>1617285670510</updated>
       <workItem from="1617285672709" duration="7000" />
       <workItem from="1617510646705" duration="601000" />
+      <workItem from="1617673964663" duration="21000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="687" y="216" key="FileChooserDialogImpl" timestamp="1617673985015">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="687" y="216" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1617673985015" />
     <state x="705" y="401" key="com.intellij.ide.util.TipDialog" timestamp="1617511794170">
       <screen x="0" y="0" width="2048" height="1152" />
     </state>
