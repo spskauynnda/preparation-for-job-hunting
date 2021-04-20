@@ -5,13 +5,12 @@
 1. github整理
 3. 个人博客
 4. 前端**鉴权**的react项目
-5. node后端
+5. koa后端
 
 ## 算法
 
 1. 快排
 2. 滚动加载/图片懒加载
-3. 深/浅拷贝
 4. vue**双向绑定**新旧方案 (Object.defineProperty/get/set监听和proxy)
 5. React/Vue **Diff**算法
 6. 节流/防抖
