@@ -1,4 +1,6 @@
-## React核心原理——事件原理
+## React原理
+
+### React核心原理——事件原理
 
 #### 一、事件系统八问
 
@@ -17,6 +19,8 @@
 * 怎么实现模拟冒泡和捕获
 
 * 怎么通过dom元素找到与之匹配的fiber
+
+  事件绑定时，绑定的dispatchEvent事件会传入对应的真实事件源元素，通过dom元素找到fiber
 
 * 为什么不能用return false 来阻止事件的默认行为
 
@@ -95,6 +99,15 @@ const registrationNameModules = {
 }
 `````
 
+https://zhuanlan.zhihu.com/p/165099741
+
+总结：
+
+1. ReactDOM 在初始化的时候，通过 EventPluginHub 对象加载事件插件，事件插件的加载是要遵循一定的顺序的，这个顺序与合成事件的依赖有关。
+2. 每个插件负责不同类型的事件，但是插件的数据结构是一致的，首先，插件会声明负责的事件，以及这些事件的基本配置，最终要的是，插件提供了一个方法，通过该方法可以将原生事件包装成 React 合成事件。
+3. React 的如果想要事件在捕获阶段触发，只需要在事件监听后加 Capture 就可以了，onClick -》 onClickCapture。
+4. React 事件将具体的实现以插件的形式由各个平台（brower 和 native）提供（比如我们今天分析的插件就是由 ReactDOM 包提供），向上暴露为统一的 React 合成事件，这种类似于接口的设计方式，使得 React 事件实现了跨平台和跨设备。
+
 #### 四、事件绑定
 
 **事件存储**
@@ -117,7 +130,39 @@ document.addEventListener('click',listener,false)
 
 可以发现，并没有直接将事件`handleClick`本身绑定到document上，而是绑定了一个传入事件类型`click`参数的`dispatchEvent`函数
 
+#### 五、事件触发
 
+**1. 批量更新**
+
+(原理待补充)
+
+**2. 合成事件源**
+
+接下来会通过 onClick 找到对应的处理插件 SimpleEventPlugin ，合成新的事件源 e ，里面包含了 preventDefault 和 stopPropagation 等方法。
+
+**3. 形成事件执行队列**
+
+在第一步通过原生 DOM 获取到对应的 fiber ，接着会从这个 fiber 向上遍历，遇到元素类型 fiber ，就会收集事件，用一个数组`dispatchListeners`收集事件：
+
+- 如果遇到捕获阶段事件 onClickCapture ，就会 unshift 放在数组前面。以此模拟事件捕获阶段。
+- 如果遇到冒泡阶段事件 onClick ，就会 push 到数组后面，模拟事件冒泡阶段。
+- 一直收集到最顶端 app ，形成执行队列，在接下来阶段，依次执行队列里面的函数。
+
+**React如何模拟阻止事件冒泡**
+
+````js
+function runEventsInBatch(){
+    const dispatchListeners = event._dispatchListeners;
+    if (Array.isArray(dispatchListeners)) {
+    for (let i = 0; i < dispatchListeners.length; i++) {
+      if (event.isPropagationStopped()) { /* 判断是否已经阻止事件冒泡 */
+        break;
+      }    
+      dispatchListeners[i](event) /* 执行真正的处理函数 及handleClick1... */
+    }
+  }
+}
+````
 
 
 
@@ -160,7 +205,7 @@ document.addEventListener('click',listener,false)
 
   - [ ] React核心原理
 
-    - [ ] 事件原理
+    - [x] 事件原理
     - [ ] 调和原理
     - [ ] 调度原理
     - [ ] hooks
