@@ -1,3 +1,17 @@
+[toc]
+
+## React基础
+
+### JSX
+
+1. ReactComponent -( babel编译 ) -> React.createElement
+
+````javascript
+React.createElement(  type,  [props],  [...children] )
+````
+
+2. 
+
 ## React原理
 
 ### React核心原理——事件原理
