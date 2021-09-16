@@ -4,13 +4,73 @@
 
 ### JSX
 
-1. ReactComponent -( babel编译 ) -> React.createElement
+#### 一. jsx变成什么
+
+1. babel编译
+
+   ReactComponent -> React.createElement
 
 ````javascript
 React.createElement(  type,  [props],  [...children] )
 ````
 
-2. 
+2. createElement 
+
+   element -> react element
+
+3. 调和
+
+    react element -> fiber
+
+#### 2. render过程改造
+
+1. 第 1 步：扁平化，规范化 children 数组。
+
+   **React.Children.toArray** 
+
+   ```js
+   const flatChildren = React.Children.toArray(children)
+   ```
+
+2. 第 2 步：遍历 children ，验证 React.element 元素节点，除去文本节点。
+
+   **React.Children.forEach**
+
+   ```js
+   const newChildren :any= []
+   React.Children.forEach(flatChildren,(item)=>{
+       if(React.isValidElement(item)) newChildren.push(item)
+   })
+   ```
+
+3. 第 3 步：用 React.createElement ，插入到 children 最后
+
+   **React.createElement**
+
+   ````js
+    /* 第三步，插入新的节点 */
+   const lastChildren = React.createElement(`div`,{ className :'last' } ,`say goodbye`)
+   newChildren.push(lastChildren)
+   ````
+
+4. 第 4 步: 已经修改了 children，现在做的是，通过 cloneElement 创建新的容器元素。
+
+   **React.cloneElement**
+
+   ````js
+   /* 第 4 步：修改容器节点 */
+   const newReactElement =  React.cloneElement(reactElement,{} ,...newChildren )
+   ````
+
+
+
+
+
+
+
+
+
+
 
 ## React原理
 
@@ -177,6 +237,38 @@ function runEventsInBatch(){
   }
 }
 ````
+
+
+
+
+
+## React生态
+
+### React-router
+
+#### 一、路由原理
+
+**history、React-router、React-router-dom 三者关系**
+
+- **history：** history 是整个 React-router 的核心，里面包括两种路由模式下改变路由的方法，和监听路由变化方法等。
+- **react-router：\**既然有了 history 路由监听/改变的核心，那么需要\**调度组件**负责派发这些路由的更新，也需要**容器组件**通过路由更新，来渲染视图。所以说 React-router 在 history 核心基础上，增加了 Router ，Switch ，Route 等组件来处理视图渲染。
+- **react-router-dom：** 在 react-router 基础上，增加了一些 UI 层面的拓展比如 Link ，NavLink 。以及两种模式的根部路由 BrowserRouter ，HashRouter 。
+
+**两种路由主要方式**
+
+- history 模式下：`http://www.xxx.com/home`
+
+- hash 模式下： `http://www.xxx.com/#/home`
+
+  对于 BrowserRouter 或者是 HashRouter，实际上原理很简单，就是React-Router-dom 根据 history 提供的 createBrowserHistory 或者 createHashHistory 创建出不同的 history 对象
+
+
+
+
+
+
+
+
 
 
 
